@@ -1,2 +1,31 @@
-# Smart-Security
-The Smart Security System uses an ESP8266 with a PIR sensor for motion detection, a flame sensor for fire detection, and an MQ-5 gas sensor for gas leaks. Integrated with a Telegram bot, it sends real-time alerts to your mobile device, enhancing home safety. This easy-to-set-up project effectively safeguards your environment from potential hazards.
+#Smart Security System with ESP8266
+#Overview
+This project implements a smart security system using the ESP8266 microcontroller along with a PIR sensor for motion detection, a flame sensor for fire detection, and an MQ-5 gas sensor for gas leak detection. Alerts are sent to a Telegram bot, providing real-time notifications for potential hazards.
+
+Table of Contents
+Features
+Components Required
+Usage
+Future Enhancements
+
+#Features
+Real-time Monitoring: Detects motion, fire, and gas leaks.
+Instant Alerts: Sends notifications through a Telegram bot.
+Easy Setup: Simple wiring and code configuration.
+
+#Components Required:
+ESP8266 Wi-Fi Module (NodeMCU or Wemos D1 Mini)
+PIR Motion Sensor
+Flame Sensor
+MQ-5 Gas Sensor
+Jumper wires
+Breadboard(optional)
+Power supply
+
+#Usage
+Once the system is set up, it continuously monitors the environment. When motion, fire, or gas is detected, a message is sent to your Telegram bot, alerting you of the potential hazard.
+
+#Future Enhancements
+Integrate with a mobile app for more features.
+Add more sensors (e.g., door/window sensors).
+Implement a web dashboard for monitoring.
