@@ -31,3 +31,4 @@
 <li>Integrate with a mobile app for more features.</li>
     <li>Add more sensors (e.g., door/window sensors).</li>
         <li>Implement a web dashboard for monitoring.</li>
+<li>Integrate with camera for live stream option.</li>
