@@ -5,28 +5,29 @@
 <hr>
 <h2>Table of Contents</h2>
 <li>Features</li>
-Components Required
-Usage
-Future Enhancements
+<li>Components Required</li>
+<li>Usage</li>
+<li>Future Enhancements</li>
 
-#Features
-Real-time Monitoring: Detects motion, fire, and gas leaks.
-Instant Alerts: Sends notifications through a Telegram bot.
-Easy Setup: Simple wiring and code configuration.
+<h2>Features</h2>
+<h4>Real-time Monitoring:</h4>Detects motion, fire, and gas leaks.
+<h4>Instant Alerts:</h4> Sends notifications through a Telegram bot.
+<h4>Easy Setup:</h4> Simple wiring and code configuration.
 
-#Components Required:
-ESP8266 Wi-Fi Module (NodeMCU or Wemos D1 Mini)
-PIR Motion Sensor
-Flame Sensor
-MQ-5 Gas Sensor
-Jumper wires
-Breadboard(optional)
-Power supply
+<h2>Components Required:</h2>
+<li>ESP8266 Wi-Fi Module (NodeMCU or Wemos D1 Mini)</li>
+    <li>PIR Motion Sensor</li>
+        <li>Flame Sensor</li>
+            <li>MQ-5 Gas Sensor</li>
+<li>Jumper wires</li>
+    <li>Breadboard(optional)</li>
+        <li>Power supply</li>
 
-#Usage
-Once the system is set up, it continuously monitors the environment. When motion, fire, or gas is detected, a message is sent to your Telegram bot, alerting you of the potential hazard.
+<h2>Usage</h2>
+<p>Once the system is set up, it continuously monitors the environment. When motion, fire, or gas is detected, a message is sent to your Telegram bot, alerting you of the potential hazard.
+</p>
 
-#Future Enhancements
-Integrate with a mobile app for more features.
-Add more sensors (e.g., door/window sensors).
-Implement a web dashboard for monitoring.
+<h2>Future Enhancements</h2>
+<li>Integrate with a mobile app for more features.</li>
+    <li>Add more sensors (e.g., door/window sensors).</li>
+        <li>Implement a web dashboard for monitoring.</li>
