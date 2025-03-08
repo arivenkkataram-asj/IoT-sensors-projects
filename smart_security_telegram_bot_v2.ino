@@ -7,12 +7,12 @@
 #define GAS_SENSOR D7
 
 // Wi-Fi credentials
-const char* WIFI_SSID = "HACKER";
-const char* WIFI_PASSWORD = "45674567";
+const char* WIFI_SSID = "-----"; //replace with your WiFi name 
+const char* WIFI_PASSWORD = "-----"; //Replace with your WiFi Password
 
 // Telegram Bot API details
-const char* TELEGRAM_BOT_API = "7528127792:AAHSnhWlbWIsY29i0YY4drixGgmT-_tacUg";  // Replace with your Bot API
-const char* CHAT_ID = "-1002254397122";                    // Replace with your Chat ID
+const char* TELEGRAM_BOT_API = "enter bot api";  // Replace with your Bot API
+const char* CHAT_ID = "-enter supergroup chat id";                    // Replace with your Chat ID
 
 void setup() {
   Serial.begin(115200);
