@@ -22,7 +22,7 @@ Each project is developed using microcontrollers like **ESP32**, **RP2040**, and
 - Detects the leakage of LPG gas using the MQ-2 sensor
 - Activates alert (buzzer/LED) and sends the notification to the telegram bot.
 
-### 🌡️ 4. Smart_irrigation
+### 🌱 4. Smart_irrigation
 - Uses DHT11 to read environmental data
 - Data sent via MQTT the data is processed in the node-red using the equation of the Penmann moith evopration
 - Logs values periodically by time stamp
