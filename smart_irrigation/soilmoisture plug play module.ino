@@ -1,0 +1,202 @@
+#include <Adafruit_Sensor.h>
+#include <WiFi.h>
+#include <DHT_U.h>
+#include <PubSubClient.h>
+
+//Defining the pin for output and input
+//#define PUMP 25  //on and off for motor
+#define DHTPIN 4 //reading temp and humidity
+#define SoilMoisture 33 //reading analog value of soil moisture
+
+//DHT Parameters
+#define DHTTYPE DHT11 //type of dht sensor //dht11 or dht22
+DHT_Unified dht(DHTPIN,DHTTYPE);
+uint32_t delayMS;
+
+//Wifi credentials
+const char* ssid = "HACKER";
+const char* password = "45674567";
+
+//MQTT credentials
+const char* mqttServer = "test.mosquitto.org"; //mqtt server name
+const char* clientID = "skajdfhkqwertyuioopsdfhklajd";//client id
+const char* topic = "plot_2"; //publish topic
+
+//other parameters in this program
+unsigned long previousMillis = 0;
+const long interval = 1000;
+String msgStr = "";
+float temp_1,temp_2,hum_1,hum_2;
+int moisture_1,moisture_2,moisture_3,moisture_4,moisture_5;
+
+//setting up wifi and mqttClient
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+//setting up wifi connection
+void setup_WiFi() {
+  WiFi.begin(ssid,password);
+  while(WiFi.status() != WL_CONNECTED){
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println();
+  Serial.println("WiFi Connected");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+}
+
+//reconnecting the MQTT client
+void reconnect(){
+  while (!client.connected()) {
+    if(client.connect(clientID)){
+      Serial.println("MQTT connected");
+      //client.subscribe("pump_1");
+      //client.subscribe("vegetables/groundnuts");
+      Serial.println("Topic Subscribed");
+    }
+    else {
+      Serial.print("Failed, rc= ");
+      Serial.print(client.state());
+      Serial.println("Try again in 5 seconds");
+      delay(5000);
+    }
+  }
+}
+
+//Subscribe callback
+/*void callback(char* topic,byte* payload, unsigned int length){
+  Serial.print("Message arrived in topic: ");
+  Serial.println(topic);
+  Serial.print("Message :");
+  String data= "";
+  for(int i =0; i<length; i++){
+    Serial.print((char)payload[i]);
+    data += (char)payload[i];
+  }
+  Serial.println();
+  Serial.print("Message size: ");
+  Serial.println(length);
+  Serial.println();
+  Serial.println("----------------------------");
+  Serial.println(data);
+
+  if (String(topic) == "pump_1") {
+    if(data == "ON_1"){
+      Serial.println("Water PUMP");
+      digitalWrite(PUMP,HIGH);
+    }
+    else {
+      Serial.println("Water PUMP");
+      digitalWrite(PUMP,LOW);
+    }
+  }
+  
+}*/
+
+void setup() {
+  Serial.begin(115200);  //bandWidth
+  //intialize device
+  dht.begin();
+
+  //getting temperature sensor details
+  sensor_t sensor;
+  dht.temperature().getSensor(&sensor);
+  dht.humidity().getSensor(&sensor);
+
+  //initalazie pump
+  //pinMode(PUMP,OUTPUT);
+  //digitalWrite(PUMP,LOW);
+
+  //initalazie pump2, pump3......
+
+  //wifi connect
+  setup_WiFi();
+  client.setServer(mqttServer,1883); //setting to the serrver
+  //client.setCallback(callback); //define function will will be called when a message is recived
+}
+
+void loop() {
+  if (!client.connected()){
+    reconnect();
+  }
+  client.loop();
+  unsigned long currentMillis = millis(); //read current time
+  if(currentMillis - previousMillis >= interval){
+    previousMillis = currentMillis;
+
+    //reading temperature and humidity
+    //reading temperature
+    sensors_event_t event;
+    dht.temperature().getEvent(&event);
+    if(isnan(event.temperature)){
+      Serial.println(F("Error reading temperature."));
+    }
+    else {
+      Serial.print(F("Temperature: "));
+      temp_1 = event.temperature;
+      Serial.print(temp_1);
+      Serial.println(F("°C"));
+    }
+    
+    //reading second temp value
+    delay(1000);
+    dht.temperature().getEvent(&event);
+    if(isnan(event.temperature)){
+      Serial.println(F("Error reading temperature."));
+    }
+    else {
+      Serial.print(F("Temperature: "));
+      temp_2 = event.temperature;
+      Serial.print(temp_1);
+      Serial.println(F("°C"));
+    }
+    //reading humdidity 
+    dht.humidity().getEvent(&event);
+    if(isnan(event.relative_humidity)){
+      Serial.println(F("Error reading humidity."));
+    }
+    else {
+      Serial.print(F("humidity: "));
+      hum_1 = event.relative_humidity;
+      Serial.print(hum_1);
+      Serial.println(F("%"));
+    }
+    //reading second hum value 
+    delay(1000);
+    dht.humidity().getEvent(&event);
+    if(isnan(event.relative_humidity)){
+      Serial.println(F("Error reading humidity."));
+    }
+    else {
+      Serial.print(F("humidity: "));
+      hum_2 = event.relative_humidity;
+      Serial.print(hum_2);
+      Serial.println(F("%"));
+    }
+    
+    //reading soil moisture
+    moisture_1 = analogRead(SoilMoisture);
+    delay(500);
+    moisture_2 = analogRead(SoilMoisture);
+    delay(500);
+    moisture_3 = analogRead(SoilMoisture);
+    delay(500);
+    moisture_4 = analogRead(SoilMoisture);
+    delay(500);
+    moisture_5 = analogRead(SoilMoisture);
+    //delay(500);
+    Serial.print("Soil Moisture Level in analog: ");
+    Serial.println(moisture_1);
+
+    msgStr = String(temp_1) +","+String(temp_2) +","+String(hum_1) +","+ String(hum_2) +","+String(moisture_1)+","+String(moisture_2) +","+String(moisture_3) +","+String(moisture_4) +","+String(moisture_5) +",";
+    byte arrSize = msgStr.length() + 1;
+    char msg[arrSize];
+    Serial.print("Publish Data: ");
+    Serial.println(msgStr);
+    msgStr.toCharArray(msg,arrSize);
+    client.publish(topic,msg);
+    msgStr = "";
+    delay(1);
+  }
+}
